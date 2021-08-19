@@ -39,34 +39,15 @@ if __name__=="__main__":
     newimg = img.copy()
     pixs = newimg.load()
 
-    """
-    #color inversion
-    for i in range(img.size[0]):
-        for j in range(img.size[1]):
-            #iterate through every pixel
-            sub = tuple(map(lambda a,b: a-b, (255,255,255), pixs[i,j]))
-            pixs[i,j] = sub
-    """
-
-    #PIL has a invert function
+    #invert image
     newimg = ImageChops.invert(newimg)
     
     print("Finished inverting the image")
 
-    #subtraction
+    #get the color to subtract
     subMask = get_colors(newimg)
 
-    #apply the mask
-
-    """
-    for i in range(img.size[0]):
-        for j in range(img.size[1]):
-            #iterate through every pixel
-            sub = tuple(map(lambda a,b: a-b, pixs[i,j], subMask))
-            pixs[i,j] = sub
-    """
-
-    #PIL has a subtract function
+    #apply the subtraction mask
     colMask = Image.new('RGB', (newimg.size[0], newimg.size[1]), subMask)
     newimg = ImageChops.subtract(newimg, colMask)
     
